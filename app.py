@@ -2,6 +2,7 @@ from dash import Dash
 from layouts.main_layout import create_main_layout
 from callbacks import graph_callbacks
 
+# Импорт приложение
 from config import app
 
 # Инициализация приложения
