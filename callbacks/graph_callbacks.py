@@ -108,9 +108,8 @@ def create_line_graph(df_line, interval, toggle_switch_m_or_d, toggle_complexity
                 line_fig.update_layout(
                     title=f"Линейный график производительности и сложности ({interval})",
                     xaxis_title="Дата",
-                    yaxis=dict(title="Масса", tickfont=dict(color="#4CAF50")),  # Fixed here
-                    yaxis2=dict(title="Сложность", tickfont=dict(color="#FF5722"), tickfont=dict(color="#FF5722"),
-                                overlaying="y", side="right"),
+                    yaxis=dict(title="Масса", tickfont=dict(color="#4CAF50")),  
+                    yaxis2=dict(title="Сложность", tickfont=dict(color="#FF5722"), overlaying="y", side="right"),
                     hovermode="x unified",
                     plot_bgcolor="#f9f9f9",
                     paper_bgcolor="#f9f9f9",
