@@ -1,0 +1,31 @@
+.custom-dropdown .Select-menu-outer {
+  width: 750px !important;   /* Автоматическая ширина */
+  min-width: 100px;         /* Минимальная ширина */
+  max-width: 800px;          /* Не превышает ширину родительского контейнера */
+  /*white-space: nowrap;      /* Предотвращает перенос строк */
+}
+
+.custom-dropdown .Select-control {
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-size: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.custom-dropdown-title .Select-menu-outer {
+  width: 220px !important;   /* Автоматическая ширина */
+  min-width: 100px;         /* Минимальная ширина */
+  max-width: 800px;          /* Не превышает ширину родительского контейнера */
+  /*white-space: nowrap;      /* Предотвращает перенос строк */
+}
+
+.custom-dropdown .Select-control {
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-size: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+

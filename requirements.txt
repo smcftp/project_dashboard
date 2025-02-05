@@ -1,0 +1,7 @@
+dash
+pydantic-settings
+sqlalchemy
+pandas
+numpy
+dash-daq
+plotly
