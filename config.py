@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     database_url: str
 
     class Config:
-        env_file = 'D:\Programming\Python\ENECA\Dashboard_OCK\test_dashboard_project — копия\.env'
+        env_file = ''
 
 set = Settings()
 
