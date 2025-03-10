@@ -17,7 +17,7 @@ class Title(Base):
     id = Column(Integer, primary_key=True)
     title_name = Column(Text, nullable=False)
     project_id = Column(Integer, ForeignKey("projects.id"))
-    initial_mass = Column(Numeric, nullable=True)  # Новое поле для хранения тоннажа
+    initial_mass = Column(Numeric, nullable=True)  
 
     project = relationship("Project", back_populates="titles")
     chapters = relationship("TitleChapter", back_populates="title")
@@ -100,6 +100,8 @@ class DrawingData(Base):
     executor_id = Column(Integer, ForeignKey("executors.id"))
     title_id = Column(Integer, ForeignKey("titles.id"))
     number_of_drawings = Column(Integer, nullable=False)
+    total_mass = Column(Numeric)
+    total_complexity = Column(Numeric) 
     
     executor = relationship("Executor", back_populates="drawing_data")
     title = relationship("Title", back_populates="drawing_data")
