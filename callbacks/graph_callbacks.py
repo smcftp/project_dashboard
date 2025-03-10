@@ -408,7 +408,8 @@ def register_graph_callbacks(app):
             drawings_columns = [
                 {"name": "ФИО", "id": "name"},
                 {"name": "Σm", "id": "total_mass_drawing"},
-                {"name": "Σt", "id": "total_hours"},
+                {"name": "WS-t", "id": "total_hours"},
+                {"name": "Tk-t", "id": "tekla_hours"},
                 {"name": "Pₘ", "id": "plan_mass"},
                 {"name": "Tk%", "id": "tekla_percentage"},
             ]
