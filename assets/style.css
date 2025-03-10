@@ -28,4 +28,31 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Полностью убираем границы у поля ввода */
+.SingleDatePickerInput {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Убираем границы у контейнера */
+.DateInput {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  width: 100% !important;
+}
+
+/* Растягиваем сам текстовый инпут */
+.DateInput_input {
+  width: 100% !important;
+  min-width: 100% !important;
+  font-size: 16px;
+  padding: 10px;
+  text-align: center;
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+}
+
 
