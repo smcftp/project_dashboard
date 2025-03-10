@@ -77,3 +77,57 @@ def get_time_by_chapter_for_title(db: Session, title_id: int):
     finally:
         db.close()  # Закрываем соединение вручную
 
+
+def get_total_time_money_complexity_for_title(db: Session, title_id: int):
+    """
+    Получает суммарное время (time), сумму денег (money) и суммарную сложность (total_complexity) по всем задачам
+    для указанного титула (title_id) и возвращает результат в виде DataFrame.
+    
+    :param db: Сессия базы данных SQLAlchemy
+    :param title_id: ID титула (title_id)
+    :return: DataFrame с колонками [Титул, Общее время (часы), Сумма денег, Общая сложность]
+    """
+    try:
+        # Запрос для получения времени и суммы денег
+        time_query = (
+            db.query(
+                models.Title.id.label("Титул"),
+                func.sum(models.WorksectionTask.time).label("Общее время (часы)"),
+                func.sum(models.WorksectionTask.money).label("Сумма денег")
+            )
+            .join(models.WorksectionTask, models.WorksectionTask.title_id == models.Title.id)
+            .filter(models.Title.id == title_id)
+            .group_by(models.Title.id)
+        )
+        
+        time_result = time_query.all()
+        
+        # Запрос для получения общей сложности из ModelingData
+        complexity_query = (
+            db.query(func.sum(models.ModelingData.total_complexity).label("Общая сложность"))
+            .filter(models.ModelingData.title_id == title_id)
+        )
+        
+        complexity_result = complexity_query.scalar()  # Получаем одно значение (сумму)
+        
+        # Если сложность не найдена, устанавливаем в 0
+        if complexity_result is None:
+            complexity_result = 0
+        
+        # Создаем DataFrame с результатами
+        time_df = pd.DataFrame(time_result, columns=["Титул", "Общее время (часы)", "Сумма денег"])
+        
+        # Добавляем колонку "Общая сложность"
+        time_df["Общая сложность"] = complexity_result
+        
+        if time_df.empty:
+            print("❌ DataFrame пуст: нет данных по временным затратам и денежным средствам для данного титула!")
+        
+        return time_df
+    
+    except Exception as e:
+        print(f"Ошибка при получении данных: {e}")
+        return pd.DataFrame(columns=["Титул", "Общее время (часы)", "Сумма денег", "Общая сложность"])  # Возвращаем пустой DataFrame
+    
+    finally:
+        db.close()  # Закрываем соединение, если оно было открыто
