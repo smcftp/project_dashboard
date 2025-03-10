@@ -1,5 +1,10 @@
 from sqlalchemy.orm import Session
 from . import models
+import unicodedata
+
+# Функция для очистки имени исполнителя
+def normalize_name(name: str) -> str:
+    return unicodedata.normalize("NFKC", name).replace("\xa0", " ").strip()
 
 # Работа с проектами
 def get_project_by_name(db: Session, project_name: str):
@@ -16,12 +21,17 @@ def create_project(db: Session, project_name: str):
 def get_title_by_name(db: Session, title_name: str):
     return db.query(models.Title).filter(models.Title.title_name == title_name).first()
 
-def create_title(db: Session, title_name: str, project_id: int):
-    db_title = models.Title(title_name=title_name, project_id=project_id)
+def create_title(db: Session, title_name: str, project_id: int, initial_mass: float = None):
+    db_title = models.Title(
+        title_name=title_name,
+        project_id=project_id,
+        initial_mass=initial_mass
+    )
     db.add(db_title)
     db.commit()
     db.refresh(db_title)
     return db_title
+
 
 # Работа с главами (TitleChapter)
 def create_title_chapter(db: Session, chapter_name: str, title_id: int):
@@ -32,8 +42,12 @@ def create_title_chapter(db: Session, chapter_name: str, title_id: int):
     return db_chapter
 
 # Работа с исполнителями
-def get_executor_by_number(db: Session, executor_number: int):
-    return db.query(models.Executor).filter(models.Executor.executor_number == executor_number).first()
+def get_executor_by_name(db: Session, executor_name: str):
+                normalized_name = normalize_name(executor_name)
+                return db.query(models.Executor).filter(models.Executor.executor_name == normalized_name).first()
+
+def get_executor_by_id(db: Session, executor_id: int):
+    return db.query(models.Executor).filter(models.Executor.id == executor_id).first()
 
 def create_executor(db: Session, executor_number: int, executor_name: str):
     db_executor = models.Executor(executor_number=executor_number, executor_name=executor_name)
