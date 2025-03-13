@@ -450,14 +450,15 @@ def register_graph_callbacks(app):
         Output("total_spent_money", "children"),
         Output("total_spent_hours", "children"),
         Output("total_complexity", "children"),
-        Input("title-dropdown", "value"),  # Выбор титула из dropdown
+        Input("title-dropdown", "value"),
+        Input("toggle-switch", "value"),
     )
-    def update_dashboard(selected_title_id):
+    def update_dashboard(selected_title_id, toggle_switch_m_or_d):
         if not selected_title_id:
             return "Нет данных", "Нет данных", "Нет данных"
 
         db = next(database.get_db())
-        data = get_total_time_money_complexity_for_title(db=db, title_id=selected_title_id)
+        data = get_total_time_money_complexity_for_title(db=db, title_id=selected_title_id, m_or_d=toggle_switch_m_or_d)
         db.close()
         
         print(data)
@@ -465,12 +466,12 @@ def register_graph_callbacks(app):
         # Вычисляем общую сумму и время
         total_money = round(data["Сумма денег"].sum(), 0)  # Суммируем значения по столбцу
         total_hours = round(data["Общее время (часы)"].sum(), 0)  # Суммируем значения по столбцу
-        total_complexity = round(data["Общая сложность"].sum(), 0)  # Суммируем значения по столбцу
+        total_mass = round(data["Общая масса"].sum(), 0)  # Суммируем значения по столбцу
         
-        print(f"{total_money} BYN", f"{total_hours} ч", f"{total_complexity}⚖️")
+        print(f"{total_money} BYN", f"{total_hours} ч", f"{total_mass} т")
 
         # Возвращаем значения в нужном формате
-        return f"{total_money} BYN", f"{total_hours} ч", f"{total_complexity}⚖️"
+        return f"{total_money} BYN", f"{total_hours} ч", f"{total_mass} т"
 
 
     # Callback для обновления прогресс бара моделирования на основе введенного значения и данных из БД
