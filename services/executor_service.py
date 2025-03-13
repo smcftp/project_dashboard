@@ -31,11 +31,12 @@ def get_executors_data_by_project(db_session: Session, title_id: int):
                     func.round(func.sum(models.WorkHoursInWorkSection.hours_worked), 2).label("total_hours"),
                     # func.round(func.sum(models.WorkHoursInTekla.hours_worked) / 3, 2).label("plan_mass")
                 )
-                .join(models.WorkHoursInWorkSection, models.Executor.id == models.WorkHoursInWorkSection.executor_id)
-                .join(models.WorksectionTask, models.WorksectionTask.id == models.WorkHoursInWorkSection.task_id)
-                .join(models.Title, models.Title.id == models.WorksectionTask.title_id)
-                .outerjoin(models.WorkHoursInTekla, models.Executor.id == models.WorkHoursInTekla.executor_id)  # ДОБАВЛЕН JOIN
-                .filter(models.Title.id == title_id)
+                # .join(models.WorkHoursInWorkSection, models.Executor.id == models.WorkHoursInWorkSection.executor_id)
+                # .join(models.WorksectionTask, models.WorksectionTask.id == models.WorkHoursInWorkSection.task_id)
+                # .join(models.Title, models.Title.id == models.WorksectionTask.title_id)
+                .join(models.Executor, models.Executor.id == models.WorkHoursInWorkSection.executor_id)
+                # .outerjoin(models.WorkHoursInTekla, models.Executor.id == models.WorkHoursInTekla.executor_id)  # ДОБАВЛЕН JOIN
+                .filter(models.WorkHoursInWorkSection.title_id == title_id)
                 .group_by(models.Executor.executor_name)
             )
 
